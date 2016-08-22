@@ -2,9 +2,13 @@ package com.imudges.hupeng.Happiness.service;
 
 import android.content.Context;
 import com.google.gson.Gson;
+import com.imudges.hupeng.Happiness.Listener.GetLIstener;
 import com.imudges.hupeng.Happiness.Listener.SimpleListener;
+import com.imudges.hupeng.Happiness.Listener.TokenListener;
+import com.imudges.hupeng.Happiness.bean.CheckTokenModel;
 import com.imudges.hupeng.Happiness.bean.LoginModel;
 
+import com.imudges.hupeng.Happiness.bean.User;
 import com.imudges.hupeng.Happiness.util.ConfigUtil;
 import com.imudges.hupeng.Happiness.util.HttpRequest;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -50,7 +54,7 @@ public class UserService {
 
             @Override
             public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                simpleListener.onFailure("网络请求失败，请检查网络配置");
+                simpleListener.onFailure(SimpleListener.NET_ERROR);
                 return;
             }
         });
@@ -59,12 +63,53 @@ public class UserService {
     /**
      * 得到当前已经登录的用户的信息
      * */
-    public void getCurrentUser(Context context){
-
+    public User getCurrentUser(Context context){
+        return null;
     }
+
+    /**
+     * 验证用户的Token
+     * */
+    public void checkToken(Context context, String phone_num, String token, TokenListener tokenListener){
+        String url = "check_token.html";
+        RequestParams params  = new RequestParams();
+        params.add("phone_num", phone_num);
+        params.add("token", token);
+        HttpRequest.get(context, url, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                try {
+                    CheckTokenModel checkTokenModel = new Gson().fromJson(new String(bytes),CheckTokenModel.class);
+                    if (checkTokenModel.getResult() == 1){
+                        tokenListener.onSuccess();
+                        return;
+                    }else{
+                        tokenListener.onFailure(TokenListener.TOKEN_ERROR);
+                        return;
+                    }
+                }catch (Exception e){
+                    tokenListener.onNetError(SimpleListener.UNKNOWN_ERROR);
+                    return;
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                tokenListener.onNetError(SimpleListener.NET_ERROR);
+                return;
+            }
+        });
+    }
+
 
     /**
      * 得到用户的信息
      * */
-//    public void getUserInfo
+    public void getUserInfo(Context context, String phone_num, String token, GetLIstener getLIstener, Class clazz){
+        String url = "getUserInfo.html";
+        RequestParams params = new RequestParams();
+
+    }
 }
