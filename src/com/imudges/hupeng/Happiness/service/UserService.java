@@ -2,7 +2,7 @@ package com.imudges.hupeng.Happiness.service;
 
 import android.content.Context;
 import com.google.gson.Gson;
-import com.imudges.hupeng.Happiness.Listener.GetLIstener;
+import com.imudges.hupeng.Happiness.Listener.GetListener;
 import com.imudges.hupeng.Happiness.Listener.SimpleListener;
 import com.imudges.hupeng.Happiness.Listener.TokenListener;
 import com.imudges.hupeng.Happiness.bean.CheckTokenModel;
@@ -107,9 +107,31 @@ public class UserService {
     /**
      * 得到用户的信息
      * */
-    public void getUserInfo(Context context, String phone_num, String token, GetLIstener getLIstener, Class clazz){
+    public void getUserInfo(Context context, String phone_num, String token, GetListener getListener, Class clazz){
         String url = "getUserInfo.html";
         RequestParams params = new RequestParams();
+        params.add("phone_num", phone_num);
+        params.add("token", token);
+
+        HttpRequest.get(context, url, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                try {
+                    User user = new Gson().fromJson(new String(bytes),User.class);
+                    getListener.onSuccess(user);
+                    return;
+                }catch (Exception e){
+                    getListener.onFailure(SimpleListener.UNKNOWN_ERROR);
+                    return;
+                }
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                getListener.onFailure(SimpleListener.NET_ERROR);
+                return;
+            }
+        });
 
     }
 }
