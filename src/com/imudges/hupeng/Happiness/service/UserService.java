@@ -91,8 +91,6 @@ public class UserService {
                     tokenListener.onNetError(SimpleListener.UNKNOWN_ERROR);
                     return;
                 }
-
-
             }
 
             @Override
