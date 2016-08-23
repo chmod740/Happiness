@@ -106,7 +106,7 @@ public class UserService {
      * 得到用户的信息
      * */
     public void getUserInfo(Context context, String phone_num, String token, GetListener getListener, Class clazz){
-        String url = "getUserInfo.html";
+        String url = "get_user_info.html";
         RequestParams params = new RequestParams();
         params.add("phone_num", phone_num);
         params.add("token", token);
