@@ -64,7 +64,25 @@ public class UserService {
      * 得到当前已经登录的用户的信息
      * */
     public User getCurrentUser(Context context){
-        return null;
+        Integer id = ConfigUtil.readInt(context,"id");
+        String phone_num = ConfigUtil.readStr(context, "phone_num");
+        String user_photo = ConfigUtil.readStr(context,"user_photo");
+        String token = ConfigUtil.readStr(context,"token");
+        String username  = ConfigUtil.readStr(context,"username");
+        Integer lover_id = ConfigUtil.readInt(context,"lover_id");
+        Integer gender = ConfigUtil.readInt(context,"gender");
+        if (id == null || phone_num == null || user_photo == null || token == null || username == null || lover_id == null){
+            return null;
+        }
+        User user = new User();
+        user.setId(id);
+        user.setPhone_num(phone_num);
+        user.setUser_photo(user_photo);
+        user.setToken(token);
+        user.setUsername(username);
+        user.setLover_id(lover_id);
+        user.setGender(gender);
+        return user;
     }
 
     /**

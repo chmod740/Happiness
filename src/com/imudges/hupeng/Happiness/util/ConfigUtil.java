@@ -22,8 +22,8 @@ public class ConfigUtil {
     public static Integer readInt(Context context,String key){
         if (sharedPreferences == null)
             sharedPreferences = context.getSharedPreferences("config",Context.MODE_PRIVATE);
-        int value =  sharedPreferences.getInt(key,-1);
-        if (value == -1) {
+        Integer value =  sharedPreferences.getInt(key,Integer.MIN_VALUE);
+        if (value == Integer.MIN_VALUE) {
             return null;
         }else {
             return value;

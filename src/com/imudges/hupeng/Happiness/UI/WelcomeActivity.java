@@ -43,6 +43,8 @@ public class WelcomeActivity extends Activity {
 //        }else {
 //            handler.sendEmptyMessageDelayed(GOHOME,WAIT_TIME);
 //        }
+
+
         handler.sendEmptyMessageDelayed(LOGIN,WAIT_TIME);
     }
 

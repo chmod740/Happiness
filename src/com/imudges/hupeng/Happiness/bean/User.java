@@ -4,20 +4,20 @@ package com.imudges.hupeng.Happiness.bean;
  * Created by apollo on 8/22/16.
  */
 public class User {
-    public String user_id;
+    public Integer id;
     public String phone_num;
     public String token;
     public String user_photo;
     public Integer gender;
-    public Integer lover;
+    public Integer lover_id;
+    public String username;
 
-
-    public String getUser_id() {
-        return user_id;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getPhone_num() {
@@ -52,11 +52,19 @@ public class User {
         this.gender = gender;
     }
 
-    public Integer getLover() {
-        return lover;
+    public Integer getLover_id() {
+        return lover_id;
     }
 
-    public void setLover(Integer lover) {
-        this.lover = lover;
+    public void setLover_id(Integer lover_id) {
+        this.lover_id = lover_id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
