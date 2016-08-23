@@ -134,6 +134,16 @@ public class UserService {
             public void onSuccess(int i, Header[] headers, byte[] bytes) {
                 try {
                     User user = new Gson().fromJson(new String(bytes),User.class);
+
+                    //在本地存储里面写入用户的登录信息
+                    ConfigUtil.writeInt(context, "id", user.getId());
+                    ConfigUtil.writeStr(context, "phone_num", user.getUser_photo());
+                    ConfigUtil.writeStr(context, "user_photo", user.getUser_photo());
+                    ConfigUtil.writeStr(context, "token", user.getToken());
+                    ConfigUtil.writeStr(context, "username", user.getUsername());
+                    ConfigUtil.writeInt(context, "lover_id", user.getLover_id());
+                    ConfigUtil.writeInt(context, "gender", user.getGender());
+
                     getListener.onSuccess(user);
                     return;
                 }catch (Exception e){
