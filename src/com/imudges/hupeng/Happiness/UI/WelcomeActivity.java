@@ -5,7 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-
+import com.imudges.hupeng.Happiness.bean.User;
+import com.imudges.hupeng.Happiness.service.UserService;
 
 
 public class WelcomeActivity extends Activity {
@@ -43,9 +44,14 @@ public class WelcomeActivity extends Activity {
 //        }else {
 //            handler.sendEmptyMessageDelayed(GOHOME,WAIT_TIME);
 //        }
+        UserService userService = new UserService();
+        User oldUser = userService.getCurrentUser(getApplicationContext());
+        if (oldUser == null){
+            handler.sendEmptyMessageDelayed(LOGIN,WAIT_TIME);
+        }else {
+            handler.sendEmptyMessageDelayed(GOHOME, WAIT_TIME);
+        }
 
-
-        handler.sendEmptyMessageDelayed(LOGIN,WAIT_TIME);
     }
 
 

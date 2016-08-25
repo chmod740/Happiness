@@ -15,6 +15,9 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.imudges.hupeng.Happiness.Listener.GetListener;
+import com.imudges.hupeng.Happiness.Listener.TokenListener;
+import com.imudges.hupeng.Happiness.service.UserService;
 import com.imudges.hupeng.Happiness.util.ConfigUtil;
 import com.imudges.hupeng.Happiness.util.IntentUtil;
 import com.imudges.hupeng.Happiness.util.ToastUtil;
@@ -47,17 +50,64 @@ public class MainActivity extends Activity implements OnClickListener,OnPageChan
 
     private List<View> views;
 
+    private UserService userService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        init();
         // 初始化控件
         initView();
         // 初始化底部按钮事件
         initEvent();
 
     }
+
+    /**
+     * 验证用户的身份
+     * */
+    private void init(){
+        if (userService == null){
+            String token = ConfigUtil.readStr(MainActivity.this,"token");
+            String phone_num = ConfigUtil.readStr(MainActivity.this, "phone_num");
+
+
+            userService = new UserService();
+            userService.checkToken(MainActivity.this, phone_num, token, new TokenListener() {
+                @Override
+                public void onNetError(String msg) {
+                    ToastUtil.toast(MainActivity.this, "连接服务器失败，请检查网络配置");
+                }
+
+                @Override
+                public void onSuccess() {
+                    userService.getUserInfo(MainActivity.this, phone_num, token, new GetListener() {
+                        @Override
+                        public void onSuccess(Object obj) {
+
+                        }
+
+                        @Override
+                        public void onFailure(String msg) {
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(String msg) {
+                    ToastUtil.toast(MainActivity.this, "令牌验证失败，请重新登录");
+                    IntentUtil.jump(MainActivity.this, LoginActivity.class);
+                    MainActivity.this.finish();
+                }
+            });
+        }
+
+
+    }
+
 
     private void initEvent() {
         // 设置按钮监听
