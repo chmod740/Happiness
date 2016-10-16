@@ -247,4 +247,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         tv_setting.setTextColor(0xffffffff);
     }
 
+
+
+
 }

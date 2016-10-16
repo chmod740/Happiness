@@ -5,14 +5,54 @@
           android:versionName="1.0">
     <uses-sdk android:minSdkVersion="18"/>
 
-    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Normal Permissions 不需要运行时注册 -->
+    <!--获取运营商信息，用于支持提供运营商信息相关的接口-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--用于访问wifi网络信息，wifi信息会用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+
+    <!-- 请求网络 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- 不是SDK需要的权限，是示例中的后台唤醒定位需要的权限 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+
+
+    <!-- 需要运行时注册的权限 -->
+    <!--用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!--写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--读取缓存数据-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!--用于读取手机当前的状态-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-    <application android:debuggable="true" android:label="@string/app_name" android:icon="@drawable/ic_launcher">
+    <!-- 更改设置 -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <application android:debuggable="true"
+                 android:label="@string/app_name"
+                 android:icon="@drawable/ic_launcher"
+                 android:allowBackup="true"
+                 android:persistent="true"
+    >
+        <!-- 设置key -->
+        <meta-data
+                android:name="com.amap.api.v2.apikey"
+                android:value="50ce915c2b9a912aa092623a1a10de2d" />
+        <!-- 定位需要的服务 -->
+        <service android:name="com.amap.api.location.APSService" >
+        </service>
 
         <!-- 用户定义的activity -->
         <activity android:name="WelcomeActivity"
@@ -33,6 +73,17 @@
                   android:label="@string/app_name">
         </activity>
 
+        <receiver android:name=".MyBroadcastReceiver" >
+            <intent-filter android:priority="2147483647" ><!--优先级加最高-->
+                <!-- 系统启动完成后会调用 -->
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <!-- 解锁完成后会调用 -->
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <!-- 监听情景切换 -->
+                <action android:name="android.media.RINGER_MODE_CHANGED" />
+            </intent-filter>
+        </receiver>
+        <service android:name=".LocationService" ></service>
 
     </application>
 </manifest>

@@ -5,6 +5,7 @@
       <root url="jar://$PROJECT_DIR$/libs/android-async-http-1.4.8.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/android-support-v4.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/picasso-2.5.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/AMap2DMap_2.9.1_AMapSearch_3.5.0_AMapLocation_3.0.0_20161014.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

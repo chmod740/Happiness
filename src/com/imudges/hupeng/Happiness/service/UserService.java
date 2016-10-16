@@ -71,7 +71,7 @@ public class UserService {
         String username  = ConfigUtil.readStr(context,"username");
         Integer lover_id = ConfigUtil.readInt(context,"lover_id");
         Integer gender = ConfigUtil.readInt(context,"gender");
-        if (id == null || phone_num == null || user_photo == null || token == null || username == null || lover_id == null){
+        if (id == null && phone_num == null && user_photo == null && token == null && username == null && lover_id == null){
             return null;
         }
         User user = new User();
